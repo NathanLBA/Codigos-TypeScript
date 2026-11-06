@@ -1,0 +1,186 @@
+//ATVD 1
+class Pessoa {
+    nome: string;
+
+    constructor(nome: string) {
+        this.nome = nome;
+    }
+}
+
+class Aluno extends Pessoa {
+    matricula: string;
+
+    constructor(nome: string, matricula: string) {
+        super(nome);
+        this.matricula = matricula;
+    }
+}
+
+class Professor extends Pessoa {
+    materia: string;
+
+    constructor(nome: string, materia: string) {
+        super(nome);
+        this.materia = materia;
+    }
+}
+
+const aluno1 = new Aluno("Vitor Abreu", "123455");
+const prof1 = new Professor("Josmar da Silva", "Alquimia Avancada");
+
+console.log(aluno1);
+console.log(prof1);
+
+// ATVD 2
+class ContaBancaria {
+    protected saldo: number;
+
+    constructor(saldoInicial: number) {
+        this.saldo = saldoInicial;
+    }
+
+    depositar(valor: number): void {
+        this.saldo += valor;
+    }
+
+    sacar(valor: number): void {
+        if (valor <= this.saldo) {
+            this.saldo -= valor;
+        } else {
+            console.log("Opps, dinheiro insuficiente!");
+        }
+    }
+
+    consultarSaldo(): number {
+        return this.saldo;
+    }
+}
+
+const minhaConta = new ContaBancaria(5);
+minhaConta.depositar(100);
+minhaConta.sacar(30);
+console.log("Saldo atual:", minhaConta.consultarSaldo());
+
+// ATVD 3 
+class Animal {
+    emitirSom(): void {
+        console.log("Algum som esquisito");
+    }
+}
+
+class Cachorro extends Animal {
+    emitirSom(): void {
+        console.log("Au au au au");
+    }
+}
+
+class Gato extends Animal {
+    emitirSom(): void {
+        console.log("Miau");
+    }
+}
+
+const bicho1: Animal = new Cachorro();
+const bicho2: Animal = new Gato();
+
+bicho1.emitirSom();
+bicho2.emitirSom();
+// ATVD 4
+abstract class Forma {
+    abstract calcularArea(): number;
+}
+
+class Retangulo extends Forma {
+    base: number;
+    altura: number;
+
+    constructor(base: number, altura: number) {
+        super();
+        this.base = base;
+        this.altura = altura;
+    }
+
+    calcularArea(): number {
+        return this.base * this.altura;
+    }
+}
+
+class Circulo extends Forma {
+    raio: number;
+
+    constructor(raio: number) {
+        super();
+        this.raio = raio;
+    }
+
+    calcularArea(): number {
+        return 3.14 * this.raio * this.raio;
+    }
+}
+
+const caixa = new Retangulo(10, 5.5);
+const pizza = new Circulo(30);
+
+console.log("Area retangulo:", caixa.calcularArea());
+console.log("Area circulo:", pizza.calcularArea());
+// ATVD 5
+abstract class Pessoa {
+    public nome: string;
+    private _idSecreto: number;
+
+    constructor(nome: string, id: number) {
+        this.nome = nome;
+        this._idSecreto = id;
+    }
+
+    getId(): number {
+        return this._idSecreto;
+    }
+
+    abstract baterPonto(): string;
+}
+
+class Aluno extends Pessoa {
+    private _notaGeral: number = 0;
+
+    constructor(nome: string, id: number) {
+        super(nome, id);
+    }
+
+    setNota(valor: number) {
+        if (valor >= 0 && valor <= 10) {
+            this._notaGeral = valor;
+        }
+    }
+
+    baterPonto(): string {
+        return `O aluno ${this.nome} entrou correndo na sala porque tava atrasado.`;
+    }
+}
+
+class Professor extends Pessoa {
+    private _salarioMixaria: number;
+
+    constructor(nome: string, id: number, salario: number) {
+        super(nome, id);
+        this._salarioMixaria = salario;
+    }
+
+    baterPonto(): string {
+        return `O professor ${this.nome} assinou a folha de ponto com raiva.`;
+    }
+}
+
+const cobaia1 = new Aluno("Cleiton Rasta Da Silva", 999);
+cobaia1.setNota(4.2);
+
+const cobaia2 = new Professor("Reginaldo Rossi Junior", 4242, 1200.50);
+
+const listagem: Pessoa[] = [cobaia1, cobaia2];
+
+listagem.forEach(p => {
+    console.log("Nome do cidadao:", p.nome);
+    console.log("Identificacao secreta:", p.getId());
+    console.log(p.baterPonto());
+});
+
